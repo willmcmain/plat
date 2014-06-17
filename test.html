@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test</title>
+        <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
+        <script src="map.js"></script>
+        <script>
+$(document).ready(function () {
+    $.get("/plat.tmx", function(data) {
+        map = Map.from_xml(data);
+        xmap = $($.parseXML(data));
+        //$map = $(map);
+    });
+});
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
