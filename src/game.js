@@ -1,11 +1,14 @@
 Game = {
+    screen_width: 1024,
+    screen_height: 768,
     tile_width: 32,
     tile_height: 32,
     start: function() {
         var xhrObj;
 
-        Crafty.init(3200, 1024);
+        Crafty.init(this.screen_width, this.screen_height);
         Crafty.background('lightskyblue');
+        Crafty.viewport.init(this.screen_width, this.screen_height);
 
         xhrObj = new XMLHttpRequest();
         xhrObj.open('GET', '/plat.tmx', false);
@@ -31,5 +34,29 @@ Game = {
                 }
             }
         }
+
+        var map_height = this.map.height * this.tile_height;
+        Crafty.viewport.y = -(map_height - Crafty.viewport.height)
+
+        Crafty.bind('EnterFrame', function() {
+            var down = 98,
+                left = 100,
+                right = 102,
+                up = 104;
+            var spd = 10;
+
+            if(Crafty.keydown[up]) {
+                Crafty.viewport.y += spd;
+            }
+            else if(Crafty.keydown[down]) {
+                Crafty.viewport.y -= spd;
+            }
+            else if(Crafty.keydown[left]) {
+                Crafty.viewport.x += spd;
+            }
+            else if(Crafty.keydown[right]) {
+                Crafty.viewport.x -= spd;
+            }
+        });
     },
 }
