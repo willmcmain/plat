@@ -1,4 +1,6 @@
 Game = {
+    width: 0,
+    height: 0,
     screen_width: 1024,
     screen_height: 768,
     tile_width: 32,
@@ -14,6 +16,12 @@ Game = {
         xhrObj.open('GET', '/plat.tmx', false);
         xhrObj.send('');
         this.map = Map.from_xml(xhrObj.responseText);
+        this.width = this.tile_width * this.map.width;
+        this.height = this.tile_height * this.map.height;
+        Crafty.viewport.bounds = {
+            min:{x:0, y:0},
+            max:{x:this.width, y:this.height}
+        };
 
         for(var j = 0; j < this.map.height; j++) {
             for(var i = 0; i < this.map.width; i++) {
@@ -35,8 +43,7 @@ Game = {
             }
         }
 
-        var map_height = this.map.height * this.tile_height;
-        Crafty.viewport.y = -(map_height - Crafty.viewport.height);
+        Crafty.viewport.y = -(this.height - Crafty.viewport.height);
 
         Crafty.bind('EnterFrame', function() {
             var down = 98,
@@ -58,6 +65,7 @@ Game = {
                 Crafty.viewport.x -= spd;
             }
         });
-        Crafty.e('Player');
+        var player = Crafty.e('Player');
+        Crafty.viewport.follow(player);
     },
 }

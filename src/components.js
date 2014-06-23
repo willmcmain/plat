@@ -47,5 +47,9 @@ Crafty.c('Player', {
                 this.y -= this._movement.y;
             }
         });
+        this.bind('Moved', function() {
+            this.x = Math.clamp(this.x, 0, Game.width-this.w);
+            this.y = Math.clamp(this.y, 0, Game.height-this.h);
+        });
     },
 });
