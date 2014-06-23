@@ -36,7 +36,7 @@ Game = {
         }
 
         var map_height = this.map.height * this.tile_height;
-        Crafty.viewport.y = -(map_height - Crafty.viewport.height)
+        Crafty.viewport.y = -(map_height - Crafty.viewport.height);
 
         Crafty.bind('EnterFrame', function() {
             var down = 98,
@@ -58,5 +58,6 @@ Game = {
                 Crafty.viewport.x -= spd;
             }
         });
+        Crafty.e('Player');
     },
 }
