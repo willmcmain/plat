@@ -35,7 +35,8 @@ Crafty.c('Tile', {
 
 Crafty.c('Player', {
     init: function() {
-        this.requires('2D, Canvas, spr_player, Twoway, Gravity, Collision, SpriteAnimation')
+        this.requires('2D, Canvas, spr_player, SpriteAnimation')
+            .requires('Twoway, Gravity, Collision')
             .attr({x:96, y:896, w:32, h:64})
             .twoway(8, 7)
             .gravity('Tile');
