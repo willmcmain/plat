@@ -1,3 +1,4 @@
+foo = null;
 Crafty.scene('Game', function() {
     for(var j = 0; j < Game.map.height; j++) {
         for(var i = 0; i < Game.map.width; i++) {
@@ -5,18 +6,6 @@ Crafty.scene('Game', function() {
             if(t !== 0) {
                 var ent = Crafty.e('Tile').grid(i, j);
                 ent.requires('tile_'+t);
-                /*switch(t) {
-                    case 1:
-                        //ent.color('rgb(0, 127, 0)');
-                        ent.requires('tile_1');
-                        break;
-                    case 2:
-                        ent.color('rgb(135, 82, 24)');
-                        break;
-                    case 4:
-                        ent.color('rgb(127, 127, 127)');
-                        break;
-                }*/
             }
         }
     }
@@ -38,7 +27,7 @@ Crafty.scene('Game', function() {
         }
     });
 
-    var player = Crafty.e('Player');
+    var player = Game.player = Crafty.e('Player').start(96, 3712);
     // Set up viewport
     Crafty.viewport.init(Game.screen_width, Game.screen_height);
     Crafty.viewport.bounds = {
@@ -85,7 +74,6 @@ Crafty.scene('Loading', function() {
 
                 Crafty.sprite(val.tilewidth, val.tileheight, val.source,
                               spr_map);
-                console.log(spr_map);
             });
 
             Crafty.scene('Game');
