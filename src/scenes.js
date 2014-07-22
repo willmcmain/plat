@@ -42,21 +42,20 @@ Crafty.scene('Loading', function() {
     Crafty.e('2D, Canvas, Text')
         .text('Loading...')
         .attr({ x: 0, y:0, w: Game.width});
-        //.css($text_css);
 
     $.get(Game.MAP, function(data) {
         Game.map = Map.from_xml(data);
         Game.width = Game.tile_width * Game.map.width;
         Game.height = Game.tile_height * Game.map.height;
 
-        var assets = [Game.PLAYER];
+        var assets = [Player.sprite];
         $.each(Game.map.tilesets, function(i, val) {
             assets.push(val.source);
         });
 
         Crafty.load(assets, function() {
             // Player Sprite
-            Crafty.sprite(32, 64, Game.PLAYER, {
+            Crafty.sprite(32, 64, Player.sprite, {
                 spr_player: [2,0],
             });
 

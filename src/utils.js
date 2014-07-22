@@ -9,3 +9,11 @@ Array.prototype.max = function() {
 Array.prototype.min = function() {
     return Math.min.apply(null, this);
 }
+
+Array.prototype.remove = function(val) {
+    var ix = this.indexOf(val);
+    if(ix === -1) {
+       return this
+    };
+    return this.splice(ix, 1);
+}

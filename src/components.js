@@ -36,25 +36,59 @@ Crafty.c('Tile', {
 
 
 Crafty.c('Physics', {
-    init: function() {
-        this._movement = {x: 0, y: 0};
-        this._speed = 7;
+    _movement: {x: 0, y: 0},
+    _speed: 7,
+    _direction: [],
 
+    _push_dir: function(dir) {
+        this._direction.unshift(dir);
+        this._set_dir();
+    },
+
+    _pop_dir: function(dir) {
+        this._direction.remove(dir);
+        this._set_dir();
+    },
+
+    _set_dir: function() {
+        if(this._direction.length > 0) {
+            this.trigger("NewDirection", this._direction[0]);
+        }
+        else {
+            this.trigger("NewDirection", null);
+        }
+    },
+
+    init: function() {
         this.bind('KeyDown', function(e) {
             if(e.key == Crafty.keys.A) {
-                this._movement.x = -this._speed;
+                this._push_dir('left');
             }
-            if(e.key == Crafty.keys.D) {
-                this._movement.x = this._speed;
+            else if(e.key == Crafty.keys.D) {
+                this._push_dir('right');
             }
         });
 
         this.bind('KeyUp', function(e) {
             if(e.key == Crafty.keys.A) {
-                this._movement.x = 0;
+                this._pop_dir('left');
             }
-            if(e.key == Crafty.keys.D) {
-                this._movement.x = 0;
+            else if(e.key == Crafty.keys.D) {
+                this._pop_dir('right');
+            }
+        });
+
+        this.bind('NewDirection', function(dir) {
+            switch(dir) {
+                case 'left':
+                    this._movement.x = -this._speed;
+                    break;
+                case 'right':
+                    this._movement.x = this._speed;
+                    break;
+                default:
+                    this._movement.x = 0;
+                    break;
             }
         });
 
@@ -134,8 +168,8 @@ Crafty.c('Player', {
         this.reel('PlayerRun', 400, 0, 0, 3);
         this.reel('PlayerStop', 400, 2, 0, 1);
 
-        this.bind('NewDirection', function(data) {
-            if (data.x) {
+        this.bind('NewDirection', function(dir) {
+            if (dir !== null) {
                 this.animate('PlayerRun', -1);
             }
             else {
