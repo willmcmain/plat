@@ -36,6 +36,7 @@ Crafty.c('Tile', {
 
 
 Crafty.c('Physics', {
+    ground: false,
     _movement: {x: 0, y: 0},
     _direction: [],
 
@@ -74,6 +75,8 @@ Crafty.c('Physics', {
 
 
         this.bind('EnterFrame', function(e) {
+            $('#is-ground').text(this.ground);
+
             // Accelleration
             switch(this.direction()) {
                 case 'left':
@@ -99,6 +102,8 @@ Crafty.c('Physics', {
             this.x += this._movement.x;
             this.y += this._movement.y;
             Crafty.trigger('Moved', old);
+
+            this.ground = false;
         })
     },
 });
@@ -155,6 +160,8 @@ Crafty.c('Player', {
                 else if(corrections[i].type === 'y') {
                     if(x_corrections.indexOf(corrections[i].x) === -1) {
                         this.y = corrections[i].y;
+                        this._movement.y = 0;
+                        this.ground = true;
                     }
                 }
             }
@@ -180,14 +187,25 @@ Crafty.c('Player', {
         });
 
         this.bind('KeyDown', function(e) {
-            if(e.key == Crafty.keys.SPACE) {
-                this._movement.y = -5;
+            if(e.key == Crafty.keys.SPACE && this.ground) {
+                this.jump = 1;
             }
         });
 
         this.bind('EnterFrame', function(e) {
-            this._movement.y += 0.1;
+            this._movement.y += Physics.gravity;
             this._movement.y = Math.clamp(this._movement.y, -31, 31);
+        });
+
+        this.bind('EnterFrame', function(e) {
+            if(Crafty.keydown[Crafty.keys.SPACE]
+               && this.jump > 0 && this.jump <= Player.jump_frames) {
+                this._movement.y -= Player.jump_accel;
+                this.jump++;
+            }
+            else if(this.jump > 0) {
+                this.jump = 0;
+            }
         });
     },
 

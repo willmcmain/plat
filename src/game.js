@@ -2,8 +2,12 @@ Player = {
     sprite: 'assets/luigi.png',
     horizontal_accel: 0.5,
     horizontal_max: 7,
-    jump_accel: 0.5,
+    jump_accel: 0.8,
     jump_frames: 10,
+}
+
+Physics = {
+    gravity: 0.25,
 }
 
 Game = {
