@@ -1,7 +1,7 @@
 Player = {
     sprite: 'assets/luigi.png',
-    horizontal_accel: 0.1,
-    horizontal_max: 6,
+    horizontal_accel: 0.5,
+    horizontal_max: 7,
     jump_accel: 0.5,
     jump_frames: 10,
 }

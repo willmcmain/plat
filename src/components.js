@@ -37,26 +37,20 @@ Crafty.c('Tile', {
 
 Crafty.c('Physics', {
     _movement: {x: 0, y: 0},
-    _speed: 7,
     _direction: [],
 
     _push_dir: function(dir) {
         this._direction.unshift(dir);
-        this._set_dir();
+        this.trigger("NewDirection", this.direction());
     },
 
     _pop_dir: function(dir) {
         this._direction.remove(dir);
-        this._set_dir();
+        this.trigger("NewDirection", this.direction());
     },
 
-    _set_dir: function() {
-        if(this._direction.length > 0) {
-            this.trigger("NewDirection", this._direction[0]);
-        }
-        else {
-            this.trigger("NewDirection", null);
-        }
+    direction: function() {
+        return this._direction.length > 0 ? this._direction[0] : null;
     },
 
     init: function() {
@@ -78,21 +72,29 @@ Crafty.c('Physics', {
             }
         });
 
-        this.bind('NewDirection', function(dir) {
-            switch(dir) {
-                case 'left':
-                    this._movement.x = -this._speed;
-                    break;
-                case 'right':
-                    this._movement.x = this._speed;
-                    break;
-                default:
-                    this._movement.x = 0;
-                    break;
-            }
-        });
 
         this.bind('EnterFrame', function(e) {
+            // Accelleration
+            switch(this.direction()) {
+                case 'left':
+                    this._movement.x -= Player.horizontal_accel;
+                    break;
+                case 'right': 
+                    this._movement.x += Player.horizontal_accel;
+                    break;
+                default:
+                    if(this._movement.x > 0) {
+                        this._movement.x -= Player.horizontal_accel;
+                    }
+                    else if(this._movement.x < 0) {
+                        this._movement.x += Player.horizontal_accel;
+                    }
+                    break;
+            }
+            this._movement.x = Math.clamp(this._movement.x,
+                                          -Player.horizontal_max,
+                                          Player.horizontal_max)
+
             var old = {x: this.x, y: this.y};
             this.x += this._movement.x;
             this.y += this._movement.y;
