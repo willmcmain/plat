@@ -27,7 +27,20 @@ Crafty.scene('Game', function() {
         }
     });
 
-    var player = Game.player = Crafty.e('Player').start(96, 3712);
+    start = null;
+    for(var i=0; i < Game.map.objects.length; i++) {
+        var obj = Game.map.objects[i];
+        if(obj.name === 'Start') {
+            start = obj;
+            break;
+        }
+    }
+    if(start === null) {
+        throw "No Start Location Defined!";
+    }
+
+    var player = Game.player = Crafty.e('Player').start(Number(start.x), Number(start.y));
+
     // Set up viewport
     Crafty.viewport.init(Game.screen_width, Game.screen_height);
     Crafty.viewport.bounds = {

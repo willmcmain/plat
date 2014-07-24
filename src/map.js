@@ -2,12 +2,13 @@
 Map = {};
 
 Map.from_xml = function (xml) {
-    var xmap = $(jQuery.parseXML(xml)).find('map');
+    xmap = $(jQuery.parseXML(xml)).find('map');
     var map = {
         width: Number(xmap.attr('width')),
         height: Number(xmap.attr('height')),
         tilesets: [],
         layers: [],
+        objects: [],
     };
 
     xmap.find('tileset').each(function() {
@@ -37,6 +38,10 @@ Map.from_xml = function (xml) {
         }
 
         map.layers.push(layer);
+    });
+
+    xmap.find('object').each(function() {
+        map.objects.push(Utils.attributes(this));
     });
 
     return map;

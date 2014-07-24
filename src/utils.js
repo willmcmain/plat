@@ -17,3 +17,14 @@ Array.prototype.remove = function(val) {
     };
     return this.splice(ix, 1);
 }
+
+Utils = {
+    attributes: function(elem) {
+        var attrs = {};
+        for(var i = 0; i < elem.attributes.length; i++) {
+            var attr = elem.attributes[i];
+            attrs[attr.name] = attr.value;
+        }
+        return attrs;
+    },
+}
