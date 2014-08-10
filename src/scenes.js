@@ -1,5 +1,5 @@
-foo = null;
 Crafty.scene('Game', function() {
+    // Load map
     for(var j = 0; j < Game.map.height; j++) {
         for(var i = 0; i < Game.map.width; i++) {
             var t = Game.map.layers[0].data[i][j];
@@ -10,24 +10,8 @@ Crafty.scene('Game', function() {
         }
     }
 
-    Crafty.bind('EnterFrame', function() {
-        var spd = 10;
-
-        if(Crafty.keydown[Crafty.keys.NUMPAD_8]) {
-            Crafty.viewport.y += spd;
-        }
-        else if(Crafty.keydown[Crafty.keys.NUMPAD_2]) {
-            Crafty.viewport.y -= spd;
-        }
-        else if(Crafty.keydown[Crafty.keys.NUMPAD_4]) {
-            Crafty.viewport.x += spd;
-        }
-        else if(Crafty.keydown[Crafty.keys.NUMPAD_6]) {
-            Crafty.viewport.x -= spd;
-        }
-    });
-
-    start = null;
+    // Load player start from map
+    var start = null;
     for(var i=0; i < Game.map.objects.length; i++) {
         var obj = Game.map.objects[i];
         if(obj.name === 'Start') {
@@ -39,7 +23,7 @@ Crafty.scene('Game', function() {
         throw "No Start Location Defined!";
     }
 
-    var player = Game.player = Crafty.e('Player').start(Number(start.x), Number(start.y));
+    Game.player = Crafty.e('Player').start(Number(start.x), Number(start.y));
 
     // Set up viewport
     Crafty.viewport.init(Game.screen_width, Game.screen_height);
@@ -47,7 +31,7 @@ Crafty.scene('Game', function() {
         min:{x:0, y:0},
         max:{x:Game.width, y:Game.height}
     };
-    Crafty.viewport.follow(player);
+    Crafty.viewport.follow(Game.player);
 });
 
 

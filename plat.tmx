@@ -131,6 +131,6 @@
 </data>
  </layer>
  <objectgroup name="Start Position" width="100" height="120">
-  <object name="Start" x="96" y="3712" width="32" height="64"/>
+  <object name="Start" x="0" y="3648" width="32" height="64"/>
  </objectgroup>
 </map>

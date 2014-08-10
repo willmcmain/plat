@@ -35,7 +35,7 @@ Crafty.c('Tile', {
 });
 
 
-Crafty.c('Physics', {
+Crafty.c('PlayerPhysics', {
     ground: false,
     _movement: {x: 0, y: 0},
     _direction: [],
@@ -99,6 +99,8 @@ Crafty.c('Physics', {
                                           Player.horizontal_max)
 
             var old = {x: this.x, y: this.y};
+            this._movement.y += Physics.gravity;
+            this._movement.y = Math.clamp(this._movement.y, -31, 31);
             this.x += this._movement.x;
             this.y += this._movement.y;
             Crafty.trigger('Moved', old);
@@ -112,7 +114,7 @@ Crafty.c('Physics', {
 Crafty.c('Player', {
     init: function() {
         this.requires('2D, Canvas, spr_player, SpriteAnimation')
-            .requires('Collision, Physics')
+            .requires('Collision, PlayerPhysics')
             .attr({w:32, h:64})
         this.last_frame = {x: this.x, y: this.y};
 
@@ -166,6 +168,7 @@ Crafty.c('Player', {
                 }
             }
         });
+
         // Clamp to playable area
         this.bind('Moved', function(old) {
             this.last_frame = old;
@@ -193,11 +196,7 @@ Crafty.c('Player', {
         });
 
         this.bind('EnterFrame', function(e) {
-            this._movement.y += Physics.gravity;
-            this._movement.y = Math.clamp(this._movement.y, -31, 31);
-        });
 
-        this.bind('EnterFrame', function(e) {
             if(Crafty.keydown[Crafty.keys.SPACE]
                && this.jump > 0 && this.jump <= Player.jump_frames) {
                 this._movement.y -= Player.jump_accel;
