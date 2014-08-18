@@ -1,8 +1,9 @@
 Player = {
     sprite: 'assets/luigi.png',
-    horizontal_accel: 0.5,
+    horizontal_accel: 7,
     horizontal_max: 7,
-    jump_accel: 0.8,
+    jump_init: 3.5,
+    jump_accel: 0.6,
     jump_frames: 10,
 }
 
@@ -11,7 +12,7 @@ Physics = {
 }
 
 Game = {
-    MAP: '/plat.tmx',
+    MAP: 'plat.tmx',
     width: 0,
     height: 0,
     screen_width: 1024,

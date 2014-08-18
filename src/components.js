@@ -192,11 +192,11 @@ Crafty.c('Player', {
         this.bind('KeyDown', function(e) {
             if(e.key == Crafty.keys.SPACE && this.ground) {
                 this.jump = 1;
+                this._movement.y = -Player.jump_init;
             }
         });
 
         this.bind('EnterFrame', function(e) {
-
             if(Crafty.keydown[Crafty.keys.SPACE]
                && this.jump > 0 && this.jump <= Player.jump_frames) {
                 this._movement.y -= Player.jump_accel;
