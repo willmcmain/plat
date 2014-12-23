@@ -1,0 +1,4 @@
+#! /bin/bash
+REMOTE=willmcmain.com:/srv/www/public/games/plat
+
+rsync -rv --exclude=".git*" --exclude="launch" --exclude=".*.swp" . $REMOTE
